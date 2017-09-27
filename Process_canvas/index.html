@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="500" height="500" style="background-color:#000;"></canvas>
+    <script>
+        window.onload = function () {
+            var canvas = document.getElementById('canvas'),
+                context = canvas.getContext('2d'),
+                cirX = canvas.width / 2,   //圆心点
+                cirY = canvas.height / 2,
+                red = Math.PI * 2 / 100,
+                n = 1,
+                speed = 150,
+                r = 100;//半径
+            function DreamLoading() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                writeCircle();
+                writeText(n);
+                writeBlue(n);
+                if (n < 100) {
+                    n = n + 0.1;
+                } else {
+                    n = 0;
+                }
+                window.requestAnimationFrame(DreamLoading);
+            }
+
+
+
+            function writeCircle() {
+                //画个圆
+                //stroke 边框
+                context.save()  //缓冲一下之前绘制的,保存当前的绘制缓冲
+                //开始路径
+                context.beginPath();
+                context.strokeStyle = '#49f'; //颜色
+                context.arc(cirX, cirY, r, 0, Math.PI * 2, false);
+                //开始画,真正实现画的功能
+                context.stroke();
+                //保存一下
+                context.restore();
+
+            }
+
+
+            function writeText(n) {
+                context.save();
+                context.strokeStyle = '#49f';
+                context.font = '40px Arail'
+                context.strokeText(n.toFixed(0) + '%', cirX - 30, cirY + 10)
+                //n默认为1,toFixed用于保存浮点的位数，0则表示为整数,位于重点点的左下方
+                context.stroke();
+                context.restore();
+            }
+
+
+
+            function writeBlue(n) {
+                context.save();
+                context.strokeStyle = "#49f";
+                context.lineWidth = 4;
+                context.beginPath();
+                context.arc(cirX, cirY, r, -Math.PI / 2, -Math.PI / 2 + red * n, false);
+                context.stroke();
+                context.restore();
+            }
+
+
+            DreamLoading();
+        }
+    </script>
+</body>
+
+</html>
